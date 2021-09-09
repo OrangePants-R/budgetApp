@@ -2,10 +2,13 @@ import React from 'react'
 import DisplayBalance from './DisplayBalance'
 import { Grid, Segment } from 'semantic-ui-react'
 
-const BalanceHeader = () => {
+const BalanceHeader = ({ incomeTotal, expenseTotal }) => {
   return (
     <div>
-      <DisplayBalance label="Your Balance" value="2,550.53" />
+      <DisplayBalance
+        label="Your Balance"
+        value={`$${incomeTotal - expenseTotal}`}
+      />
       <Segment textAlign="center">
         <Grid columns={2}>
           <Grid.Row>
@@ -14,7 +17,7 @@ const BalanceHeader = () => {
                 size="tiny"
                 color="green"
                 label="Income:"
-                value="1,045.50"
+                value={`$${incomeTotal}`}
               />
             </Grid.Column>
 
@@ -23,7 +26,7 @@ const BalanceHeader = () => {
                 size="tiny"
                 color="red"
                 label="Expenses:"
-                value="623.50"
+                value={`$${expenseTotal}`}
               />
             </Grid.Column>
           </Grid.Row>
