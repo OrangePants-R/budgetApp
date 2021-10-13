@@ -6,8 +6,14 @@ import NewEntryForm from './components/NewEntryForm'
 import BalanceHeader from './components/BalanceHeader'
 import EntryLines from './components/EntryLines'
 import ModalEdit from './components/ModalEdit'
+import { addEntryAction, removeEntryAction } from './actions'
+import { createStore } from 'redux'
+import { reducer } from './reducers'
+import { initialEntries } from './reducers/entries'
 
 const App = () => {
+  const store = createStore(reducer)
+
   const [description, setDescription] = useState('')
   const [value, setValue] = useState(0.0)
   const [isExpense, setIsExpense] = useState(true)
@@ -47,6 +53,20 @@ const App = () => {
     setExpenseTotal(totalExpense)
     setIncomeTotal(totalIncome)
   }, [entries])
+
+  store.subscribe(() => {
+    console.log(store.getState())
+  })
+
+  const payload_add = {
+    id: 5,
+    description: 'hello from redux',
+    value: 100,
+    isExpense: false,
+  }
+
+  store.dispatch(addEntryAction(payload_add))
+  store.dispatch(removeEntryAction(1))
 
   const deleteEntry = (id) => {
     const result = entries.filter((entry) => entry.id !== id)
@@ -116,30 +136,3 @@ const App = () => {
 }
 
 export default App
-
-var initialEntries = [
-  {
-    id: 1,
-    description: 'Work Income',
-    value: 1000.0,
-    isExpense: false,
-  },
-  {
-    id: 2,
-    description: 'Water Bill',
-    value: 20.0,
-    isExpense: true,
-  },
-  {
-    id: 3,
-    description: 'Power Bill',
-    value: 100.0,
-    isExpense: true,
-  },
-  {
-    id: 4,
-    description: 'Rent',
-    value: 300.0,
-    isExpense: true,
-  },
-]
